@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.edm.model.Alumno;
+import ar.edu.unju.edm.model.Cuestionario;
 import ar.edu.unju.edm.service.IAlumnoService;
+import ar.edu.unju.edm.service.ICuestionarioService;
+
 import javax.validation.Valid;
 
 @Controller
@@ -22,6 +25,11 @@ public class AlumnoController {
 
 	private static final Log GRUPO6 = LogFactory.getLog(AlumnoController.class);
 	
+	@Autowired
+	Cuestionario cuestionario;
+	
+	@Autowired
+	ICuestionarioService unCuestionarioService;
 	
 	@Autowired
 	Alumno unAlumno;
@@ -70,7 +78,7 @@ public class AlumnoController {
 			return cargaAlumno;
 		}
 		
-		ModelAndView listadoAlumnos = new ModelAndView("mostrarAlumnos");
+		ModelAndView listadoAlumnos = new ModelAndView("listaDeAlumnos");
 		
 			GRUPO6.warn("Mostrando nuevo Alumno"+nAlumno.getNombre());
 		
@@ -82,7 +90,7 @@ public class AlumnoController {
 			GRUPO6.error(e);
 		}
 				
-		listadoAlumnos.addObject("AlumnoListado", unServicio.listarAlumnos());
+		listadoAlumnos.addObject("alumnoListado", unServicio.listarAlumnos());
 		
 		return listadoAlumnos;
 	}
@@ -151,5 +159,12 @@ public class AlumnoController {
 		return eliminarAlumno;
 	}
 	
+	@GetMapping("/cuestionariosOrdenados")
+	public ModelAndView mostrarCuestionarios(){
+		
+		ModelAndView listadoCuestionarios = new ModelAndView("cuestionariosOrdenados");
+		listadoCuestionarios.addObject("cuestionarioOrdenado", unCuestionarioService.listarCuestionariosOrdenados());
+		return listadoCuestionarios;
+	}
 	
 }

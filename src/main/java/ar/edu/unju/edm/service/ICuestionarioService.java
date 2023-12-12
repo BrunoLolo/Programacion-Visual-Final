@@ -16,6 +16,6 @@ public interface ICuestionarioService {
 	public ArrayList<Cuestionario> listarCuestionarios();
 	public ArrayList<Cuestionario> listarCuestionariosTodos();
 	public void eliminarTodosLosCuestionarios();
-
+	public ArrayList<Cuestionario> listarCuestionariosOrdenados();
 
 }

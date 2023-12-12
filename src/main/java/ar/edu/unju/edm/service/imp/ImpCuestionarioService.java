@@ -1,6 +1,8 @@
 package ar.edu.unju.edm.service.imp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,37 @@ public class ImpCuestionarioService implements ICuestionarioService {
 	public void eliminarTodosLosCuestionarios() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public ArrayList<Cuestionario> listarCuestionariosOrdenados(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+	    Object principal = authentication.getPrincipal();
+	    UserDetails entidadAutenticada= null;
+	    // Verificar si el objeto principal es una instancia de la entidad que deseas guardar
+	    if (principal instanceof UserDetails) {
+	        entidadAutenticada = (UserDetails) principal;
+	    }
+	    
+	    ArrayList<Cuestionario> cuestionarios = (ArrayList<Cuestionario>) cuestionarioRepository.findAll();
+        ArrayList<Cuestionario> cuestionariosDeDocente= new ArrayList<>();
+	    
+	        for(int i=0; i<cuestionarios.size();i++) {
+	        	if(cuestionarios.get(i).getDocente().getId_Docente()==Integer.parseInt(entidadAutenticada.getUsername())){
+	        		cuestionariosDeDocente.add(cuestionarios.get(i));
+	        	}
+	        }
+	        
+	     // Ordenar la lista de cuestionarios por materia
+	        Collections.sort(cuestionariosDeDocente, new Comparator<Cuestionario>() {
+	            @Override
+	            public int compare(Cuestionario c1, Cuestionario c2) {
+	                return c1.getTitulo().compareTo(c2.getTitulo());
+	            }
+	        });
+	        
+	        return cuestionariosDeDocente;
 	}
 
 }
