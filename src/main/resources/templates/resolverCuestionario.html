@@ -13,13 +13,13 @@
  
      <form th:object="${nuevoCuestionarioAlumno}" th:action="@{'/resultadoDeCuestionario/' + ${cuestionario.id_Cuestionario}}" method="post">
 		
-        <div class="mb-e">
+         <div class="mb-e">
             <label class="form-label">Estudiante:</label>
             <select th:field="*{alumno}" class="form-control" required>
                 <option value="">Seleccionar estudiante...</option>
-                <option th:each="estud : ${listadoAlumnos}" th:value="${alum.id_alum}" th:text="${alum.nombre + ' ' + alum.apellido}"></option>
+                <option th:each="alum : ${listadoAlumnos}" th:value="${alum.id_Alumno}" th:text="${alum.nombre + ' ' + alum.apellido}"></option>
             </select>
-        </div>
+        </div> 
 	 
 	 <div class="mb-3">
             <label class="form-label">Preguntas:</label>
